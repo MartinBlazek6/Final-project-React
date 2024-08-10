@@ -24,7 +24,7 @@ const TeachersTable: React.FC = () => {
   useEffect(() => {
     const fetchTeachers = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/teacher");
+        const response = await fetch("https://edupage.onrender.com/api/teacher");
         if (!response.ok) {
           throw new Error(`Error fetching data: ${response.statusText}`);
         }
