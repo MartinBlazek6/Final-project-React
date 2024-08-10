@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useRouter } from 'next/navigation'; // Use this for Next.js 13 or later
 
 interface Parent {
   parentId: number;
@@ -15,6 +16,7 @@ const ParentsTable: React.FC = () => {
   const [parents, setParents] = useState<Parent[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter(); // Initialize the router
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -68,6 +70,11 @@ const ParentsTable: React.FC = () => {
   const handleNextPage = () => {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
   };
+
+  const handleGoToMainPage = () => {
+    router.push('/'); // Redirect to the main page
+  };
+
 
   if (loading) {
     return <div className="text-white">Loading...</div>;
@@ -132,6 +139,15 @@ const ParentsTable: React.FC = () => {
           disabled={currentPage === totalPages}
         >
           Next
+        </button>
+      </div>
+            {/* Button to redirect to the main page */}
+            <div className="flex justify-center mt-4">
+        <button
+          onClick={handleGoToMainPage}
+          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Go to Main Page
         </button>
       </div>
     </div>

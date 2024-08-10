@@ -1,6 +1,7 @@
 "use client"; // This directive must be at the top
 
 import React, { useEffect, useState } from "react";
+import { useRouter } from 'next/navigation'; // Use this for Next.js 13 or later
 
 interface Parent {
   parentId: number;
@@ -30,6 +31,7 @@ const StudentsTable: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [expandedStudentId, setExpandedStudentId] = useState<number | null>(null);
+  const router = useRouter(); // Initialize the router
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -106,6 +108,10 @@ const StudentsTable: React.FC = () => {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
   };
 
+  const handleGoToMainPage = () => {
+    router.push('/'); // Redirect to the main page
+  };
+
   if (loading) {
     return <div className="text-white">Loading...</div>;
   }
@@ -133,7 +139,7 @@ const StudentsTable: React.FC = () => {
       <table className="min-w-full border-collapse block md:table">
         <thead className="block md:table-header-group">
           <tr className="border-b border-gray-700 md:border-none md:table-row">
-            {/* <th className="p-2 text-left font-medium text-gray-400 md:table-cell">ID</th> */}
+            <th className="p-2 text-left font-medium text-gray-400 md:table-cell">ID</th>
             <th className="p-2 text-left font-medium text-gray-400 md:table-cell">Name</th>
             <th className="p-2 text-left font-medium text-gray-400 md:table-cell">Surname</th>
             <th className="p-2 text-left font-medium text-gray-400 md:table-cell">Class Room</th>
@@ -144,7 +150,7 @@ const StudentsTable: React.FC = () => {
           {currentStudents.map((student) => (
             <React.Fragment key={student.studentId}>
               <tr className="border-b border-gray-700 md:border-none md:table-row">
-                {/* <td className="p-2 md:table-cell">{student.studentId}</td> */}
+                <td className="p-2 md:table-cell">{student.studentId}</td>
                 <td className="p-2 md:table-cell">{student.studentName}</td>
                 <td className="p-2 md:table-cell">{student.studentSurname}</td>
                 <td className="p-2 md:table-cell">{student.classRoom.classRoomName}</td>
@@ -206,6 +212,16 @@ const StudentsTable: React.FC = () => {
           disabled={currentPage === totalPages}
         >
           Next
+        </button>
+      </div>
+
+            {/* Button to redirect to the main page */}
+            <div className="flex justify-center mt-4">
+        <button
+          onClick={handleGoToMainPage}
+          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Go to Main Page
         </button>
       </div>
     </div>
